@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@openzeppelin/contracts": "^3.4.1"
+    "@openzeppelin/contracts": "^3.4.1",
+    "chai": "^4.3.3",
+    "truffle-assertions": "^0.9.2"
   }
 }
