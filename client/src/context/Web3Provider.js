@@ -30,12 +30,11 @@ const Web3Provider = ({ children }) => {
             const accounts = await web3.eth.getAccounts();
             const networkId = await web3.eth.net.getId();
             const deployedNetwork = VotingContract.networks[networkId];
-
+        
             const instance = new web3.eth.Contract(
                 VotingContract.abi, 
-                deployedNetwork && deployedNetwork[networkId].address,);
+                deployedNetwork && deployedNetwork.address,);
             instance && console.log('connected to blockchain')
-                debugger
             resolve({ web3, instance, accounts })
         })
     const subscribeEvents = ({ web3, instance, accounts }) => new Promise(async (resolve) => {
