@@ -85,8 +85,17 @@ contract Voting is Ownable {
          emit VoterRemoved(_address);
     }
 
+    function resetVotingSession() public onlyOwner   {
+        WorkflowStatus previous = status;
+        WorkflowStatus newStatus = WorkflowStatus.RegisteringVoters;
+        status = newStatus;
+        emit NewVotingSystem();
+        emit WorkflowStatusChange(previous, newStatus);
+    }
+
+
     function startProposalRegistration() public onlyOwner   {
-        WorkflowStatus previous = WorkflowStatus.RegisteringVoters;
+        WorkflowStatus previous = status;
         WorkflowStatus newStatus = WorkflowStatus.ProposalsRegistrationStarted;
         status = newStatus;
         emit ProposalsRegistrationStarted();

@@ -97,6 +97,7 @@ function App({ connectWeb3, instance, admin }) {
     endProposal,
     startVotingSession,
     endVotingSession,
+    resetVotingSession,
     addProposal,
   } = useContract(instance, admin);
 
@@ -146,7 +147,6 @@ function App({ connectWeb3, instance, admin }) {
   return (
     <>
       <Toast />
-
       {!instance && <div>Loading Web3, accounts, and instance...</div>}
       {!!instance && (
         <nav className="navbar navbar-light bg-light">
@@ -178,10 +178,18 @@ function App({ connectWeb3, instance, admin }) {
               &nbsp;
               <button
                 onClick={endVotingSession}
-                disabled={status !== 3}
+                disabled={!Boolean(parseInt(status) === 3)}
                 className="btn btn-secondary btn-sm"
               >
                 End Voting Session
+              </button>
+              &nbsp;
+              <button
+                onClick={resetVotingSession}
+                disabled={!Boolean(parseInt(status) !== 0)}
+                className="btn btn-danger btn-sm"
+              >
+                Reset
               </button>
             </div>
             <span className="navbar-brand mb-0 h1">
