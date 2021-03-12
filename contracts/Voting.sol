@@ -50,6 +50,7 @@ contract Voting is Ownable {
     ///@notice Events
     event NewVotingSystem();
     event VoterRegistered(address voterAddress);
+    event VoterRemoved(address voterAddress);
     event ProposalsRegistrationStarted();
     event ProposalsRegistrationEnded();
     event ProposalRegistered(uint256 proposalId);
@@ -81,13 +82,14 @@ contract Voting is Ownable {
 
     function deleteVoter(address _address) public onlyOwner {
         delete whiteList[_address];
+         emit VoterRemoved(_address);
     }
 
     function startProposalRegistration() public onlyOwner   {
-        WorkflowStatus previous = status;
-        status = WorkflowStatus.ProposalsRegistrationStarted;
-        emit ProposalsRegistrationStarted();
+        WorkflowStatus previous = WorkflowStatus.RegisteringVoters;
         WorkflowStatus newStatus = WorkflowStatus.ProposalsRegistrationStarted;
+        status = newStatus;
+        emit ProposalsRegistrationStarted();
         emit WorkflowStatusChange(previous, newStatus);
     }
 
@@ -96,7 +98,6 @@ contract Voting is Ownable {
         WorkflowStatus newStatus = WorkflowStatus.ProposalsRegistrationEnded;
         status = newStatus;
         emit ProposalsRegistrationEnded();
-      
         emit WorkflowStatusChange(previous, newStatus);
     }
 
@@ -104,7 +105,7 @@ contract Voting is Ownable {
         WorkflowStatus previous = status;
         WorkflowStatus newStatus = WorkflowStatus.VotingSessionStarted;
         status = newStatus;
-        emit VotingSessionEnded();
+        emit VotingSessionStarted();
         emit WorkflowStatusChange(previous, newStatus);
     }
 
