@@ -11,6 +11,7 @@ const ProposalList = ({ width = "6" }) => {
   const {
     status,
     eventTxHash,
+    transactionIsPending,
     getProposals,
     addProposal,
     removeProposal,
@@ -56,7 +57,7 @@ const ProposalList = ({ width = "6" }) => {
               className="form-text"
               style={{ color: "crimson", height: "auto" }}
             >
-              Proposals' session not opened yet
+              Proposals' session currently closed
             </div>
           )}
         </div>

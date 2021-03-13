@@ -6,8 +6,8 @@ const Header = ({ instance, admin }) => {
   const {
     count,
     status,
-    startProposal,
-    endProposal,
+    startProposalSession,
+    endProposalSession,
     startVotingSession,
     endVotingSession,
     resetVotingSession,
@@ -34,7 +34,7 @@ const Header = ({ instance, admin }) => {
         <div className="container-fluid">
           <div className="d-flex">
             <button
-              onClick={startProposal}
+              onClick={startProposalSession}
               className="btn btn-secondary btn-sm"
               disabled={isProposalsRegistrationOpen}
             >
@@ -42,7 +42,7 @@ const Header = ({ instance, admin }) => {
             </button>
             &nbsp;
             <button
-              onClick={endProposal}
+              onClick={endProposalSession}
               disabled={isDisabled(1)}
               className="btn btn-secondary btn-sm"
             >
