@@ -107,8 +107,7 @@ const useContract = (instance, admin) => {
     }).then((values) => values);
   };
 
-  const add = async (address) => {
-    console.log(instance);
+  const addVoter = async (address) => {
     setPending(false);
     setCurrentVoter(address);
     await instance.methods
@@ -121,7 +120,7 @@ const useContract = (instance, admin) => {
       });
   };
 
-  const remove = async (address) => {
+  const removeVoter = async (address) => {
     setPending(false);
     setCurrentVoter(address);
     await instance.methods
@@ -135,7 +134,27 @@ const useContract = (instance, admin) => {
   };
 
   const addProposal = async (content) => {
-    await instance.methods.addProposal(content).send({ from: admin });
+    setPending(false);
+    await instance.methods
+      .addProposal(content)
+      .send({ from: admin })
+      .then((result) => {
+        setTimeout(() => {
+          setPending(result.status);
+        }, 5000);
+      });
+  };
+
+  const removeProposal = async (content) => {
+    setPending(false);
+    await instance.methods
+      .deleteProposal(content)
+      .send({ from: admin })
+      .then((result) => {
+        setTimeout(() => {
+          setPending(result.status);
+        }, 5000);
+      });
   };
   const startProposal = async () => {
     await instance.methods.startProposalRegistration().send({ from: admin });
@@ -170,14 +189,15 @@ const useContract = (instance, admin) => {
       toast,
       whiteList,
       getProposals,
-      add,
-      remove,
+      addVoter,
+      removeVoter,
       startProposal,
       endProposal,
       startVotingSession,
       endVotingSession,
       resetVotingSession,
       addProposal,
+      removeProposal,
     };
   }, [status, count, eventTxHash, isPending, toast]);
   return value;
