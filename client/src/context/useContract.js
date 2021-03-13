@@ -58,7 +58,10 @@ const useContract = (instance, admin) => {
       .on("error", console.error);
     instance.events
       .ProposalRegistered()
-      .on("data", (data) => handleEvent(data, "✅ New proposal added"))
+      .on("data", (data) => {
+        handleEvent(data, "✅ New proposal added");
+        getStatus();
+      })
       .on("error", console.error);
     instance.events
       .NewVotingSystem()

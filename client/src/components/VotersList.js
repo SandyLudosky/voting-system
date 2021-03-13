@@ -48,7 +48,11 @@ const VotersList = ({ width = "6" }) => {
             onChange={handleOnChange}
           />
         </div>
-        <button className="btn btn-secondary col-sm-3" disabled={!voterAddress}>
+        <button
+          type="submit"
+          className="btn btn-secondary col-sm-3"
+          disabled={!voterAddress}
+        >
           Add Voter
         </button>
       </form>

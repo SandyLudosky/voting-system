@@ -39,8 +39,9 @@ const ProposalList = ({ width = "6" }) => {
           />
         </div>
         <button
+          type="submit"
           className="btn btn-secondary col-sm-3"
-          disabled={!Boolean(parseInt(status) === 1)}
+          disabled={!Boolean(parseInt(status) === 1 && !!proposal)}
         >
           Add Proposal
         </button>

@@ -89,6 +89,7 @@ contract Voting is Ownable {
 
     function deleteVoter(address _address) public onlyOwner {
         delete whiteList[_address];
+        votersCount--;
         emit VoterRemoved(_address);
     }
 
