@@ -4,14 +4,13 @@ const useContract = (instance, admin) => {
   const [isPending, setPending] = useState(true);
   const [currentVoter, setCurrentVoter] = useState(null);
   const [toast, setToast] = useState({ visible: false, message: "" });
+  const [status, setStatus] = useState(0);
+  const [count, setCount] = useState(0);
   const [eventTxHash, setTxHash] = useState("");
   const [state, setState] = useState({
-    count: 0,
     event: "",
     currentVoter: null,
   });
-
-  const [status, setStatus] = useState(0);
 
   const handleEvent = async ({ transactionHash, event }, message) => {
     countVoters();
@@ -26,7 +25,7 @@ const useContract = (instance, admin) => {
       return false;
     }
     const votersCount = await instance.methods.votersCount().call();
-    setState({ ...state, count: votersCount });
+    setCount(votersCount);
   };
 
   const updateStatus = (e) => {
@@ -165,6 +164,7 @@ const useContract = (instance, admin) => {
     return {
       ...state,
       status,
+      count,
       eventTxHash,
       transactionIsPending: isPending,
       toast,
@@ -179,7 +179,7 @@ const useContract = (instance, admin) => {
       resetVotingSession,
       addProposal,
     };
-  }, [status, eventTxHash, isPending, toast]);
+  }, [status, count, eventTxHash, isPending, toast]);
   return value;
 };
 export default useContract;

@@ -5,7 +5,6 @@ import useContract from "../context/useContract";
 const Header = ({ instance, admin }) => {
   const {
     count,
-    whiteList,
     status,
     startProposal,
     endProposal,
@@ -13,8 +12,6 @@ const Header = ({ instance, admin }) => {
     endVotingSession,
     resetVotingSession,
   } = useContract(instance, admin);
-
-  const [approved, setApproved] = useState(0);
   const workflowStatus = [
     "RegisteringVoters",
     "ProposalsRegistrationStarted",
@@ -23,10 +20,6 @@ const Header = ({ instance, admin }) => {
     "VotingSessionEnded",
     "VotesTallied",
   ];
-
-  useEffect(() => {
-    whiteList(instance).then((values) => setApproved(values.length));
-  }, [instance]);
 
   const isDisabled = (index) => !Boolean(parseInt(status) === index);
 
