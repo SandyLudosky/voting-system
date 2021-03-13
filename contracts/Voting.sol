@@ -16,6 +16,7 @@ contract Voting is Ownable {
 
     //increment d'ids
     uint8 public proposalIds;
+    uint8 public votersCount;
 
     struct Voter {
         bool isRegistered;
@@ -32,8 +33,8 @@ contract Voting is Ownable {
         uint256 voteCount;
     }
 
+    address[] voters;
     mapping(address => Voter) public whiteList;
-
     mapping(uint256 => Proposal) public proposals;
 
     enum WorkflowStatus {
@@ -50,7 +51,7 @@ contract Voting is Ownable {
     ///@notice Events
     event NewVotingSystem();
     event VoterRegistered(address voterAddress);
-    event VoterRemoved(address voterAddress);
+    event VoterRemoved(address _address);
     event ProposalsRegistrationStarted();
     event ProposalsRegistrationEnded();
     event ProposalRegistered(uint256 proposalId);
@@ -67,6 +68,10 @@ contract Voting is Ownable {
         emit NewVotingSystem();
     }
 
+    function getVoters() public view returns(address[] memory) {
+        return voters;
+    }
+
     function getWinningProposal() public view returns (Proposal memory proposal){
       //a voir en cas de plusieurs gagnnats boucle ->
         return proposals[winningProposalId];
@@ -77,12 +82,14 @@ contract Voting is Ownable {
         require(status == WorkflowStatus.RegisteringVoters);
         Voter memory newVoter = Voter(true, _address, false, 0);
         whiteList[_address] = newVoter;
+        voters.push(_address);
+        votersCount++;
         emit VoterRegistered(_address);
     }
 
     function deleteVoter(address _address) public onlyOwner {
         delete whiteList[_address];
-         emit VoterRemoved(_address);
+        emit VoterRemoved(_address);
     }
 
     function resetVotingSession() public onlyOwner   {
@@ -133,7 +140,7 @@ contract Voting is Ownable {
     }
 
     ///@param _description est le nom de la proposition
-    function addProposal(string memory _description) public whiteListed {
+    function addProposal(string memory _description) public whiteListed() {
         //obligation d'être dans le workflow correspondant
         //deux propositions identiques sont possibles à voir...
         require(status == WorkflowStatus.ProposalsRegistrationStarted, "Proposals session has not started");

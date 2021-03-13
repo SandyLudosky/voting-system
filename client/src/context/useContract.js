@@ -16,15 +16,25 @@ const useContract = (instance, admin) => {
   const [eventTxHash, setTxHash] = useState("");
   const [state, setState] = useState({
     status: 0,
+    count: 0,
     event: "",
     currentVoter: null,
   });
 
-  const handleEvent = ({ transactionHash, event }, message) => {
+  const handleEvent = async ({ transactionHash, event }, message) => {
+    countVoters();
     setTxHash(transactionHash);
-    setState({ ...state, event: event });
     setToast({ visible: true, message: message });
+    setState({ ...state, event: event });
     setTimeout(() => setToast({ visible: false, message: "" }), 4000);
+  };
+
+  const countVoters = async () => {
+    if (!instance) {
+      return false;
+    }
+    const votersCount = await instance.methods.votersCount().call();
+    setState({ ...state, count: votersCount });
   };
 
   const updateStatus = (e) =>
@@ -60,26 +70,29 @@ const useContract = (instance, admin) => {
     if (!instance) {
       return false;
     }
+    const voters = await instance.methods.getVoters().call();
     return await Promise.all(
-      list.map(async (address) => {
-        const { isRegistered } = await instance.methods
-          .whiteList(address)
-          .call();
+      voters.map(async (address) => {
+        const {
+          isRegistered,
+          _address,
+          hasVoted,
+        } = await instance.methods.whiteList(address).call();
+
         return {
+          address: _address,
           isWhitelisted: isRegistered,
-          address: address,
+          hasVoted: hasVoted,
         };
       })
     ).then((values) => values);
   };
-
   const getProposals = async (instance) => {
     if (!instance) {
       return false;
     }
     let propals = [];
     const proposalCount = await instance.methods.proposalIds().call();
-    console.log(proposalCount);
     return new Promise(async (resolve) => {
       for (let i = 0; i <= proposalCount; i++) {
         const proposal = await instance.methods.proposals(i).call();
@@ -108,7 +121,6 @@ const useContract = (instance, admin) => {
       .send({ from: admin })
       .then((result) => {
         setValidated(false);
-        console.log(isValidated);
         setTimeout(() => {
           setValidated(result.status);
         }, 5000);
@@ -152,6 +164,7 @@ const useContract = (instance, admin) => {
   useEffect(() => {
     subscribeEvents();
     getStatus();
+    countVoters();
   }, [instance]);
 
   const value = useMemo(() => {

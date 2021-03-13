@@ -40,15 +40,12 @@ const Web3Provider = ({ children }) => {
   };
 
   const connect = () => {
-    return new Promise((resolve) => {
-      connectWeb3
-        .then(connectBlockchain, console.error)
-        .then(({ web3, instance, accounts }) => {
-          setState({ web3, accounts, contract: instance, admin: accounts[0] });
-          getBalance(web3, accounts);
-          resolve(instance);
-        });
-    });
+    connectWeb3
+      .then(connectBlockchain, console.error)
+      .then(({ web3, instance, accounts }) => {
+        setState({ web3, accounts, contract: instance, admin: accounts[0] });
+        getBalance(web3, accounts);
+      });
   };
   const value = useMemo(() => {
     return {
