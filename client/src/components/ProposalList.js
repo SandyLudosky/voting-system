@@ -71,12 +71,15 @@ const ProposalList = ({ width = "6" }) => {
 
       <Table header="Proposals">
         {!!proposalsList &&
-          proposalsList.map(({ description }, index) => {
+          proposalsList.map(({ description, address, id }, index) => {
             return (
               <Row
                 remove={() => removeProposal(index)}
                 content={description}
                 index={index}
+                isProposal={true}
+                address={address}
+                id={id}
               />
             );
           })}

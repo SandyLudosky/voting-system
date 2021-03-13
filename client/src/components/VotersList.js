@@ -41,7 +41,7 @@ const VotersList = ({ width = "6" }) => {
         onSubmit={handleOnSubmit}
         className="d-flex justify-content-between mt-5"
       >
-        <div className="col-md-8">
+        <div className="col-sm-8">
           <input
             type="text"
             className="form-control"

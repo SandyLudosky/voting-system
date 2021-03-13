@@ -54,6 +54,7 @@ contract Voting is Ownable {
     event VoterRemoved(address _address);
     event ProposalsRegistrationStarted();
     event ProposalsRegistrationEnded();
+    
     event ProposalRegistered(uint256 proposalId);
     event ProposalRemoved(uint256 proposalId);
     event VotingSessionStarted();

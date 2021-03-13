@@ -160,6 +160,10 @@ const useContract = (instance, admin) => {
         }, 5000);
       });
   };
+
+  const vote = async (id) => {
+    await instance.methods.vote(id).send({ from: admin });
+  };
   const startProposal = async () => {
     await instance.methods.startProposalRegistration().send({ from: admin });
   };
@@ -202,6 +206,7 @@ const useContract = (instance, admin) => {
       resetVotingSession,
       addProposal,
       removeProposal,
+      vote,
     };
   }, [status, count, eventTxHash, isPending, toast]);
   return value;
