@@ -1,12 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Web3Context } from "../context";
 import useContract from "../context/useContract";
+
 import Table from "./Table";
 import Row from "./Row";
 
 const VotersList = ({ width = "6" }) => {
   const { instance, admin } = useContext(Web3Context);
-  const { add, whiteList, eventTxHash } = useContract(instance, admin);
+  const { eventTxHash, whiteList, add } = useContract(instance, admin);
+
   const [voters, setVoters] = useState([]);
   const [voterAddress, setVoterAddress] = useState(null);
   const [approved, setApproved] = useState([]);

@@ -3,7 +3,17 @@ import withContext from "../context";
 import useContract from "../context/useContract";
 
 const Header = ({ instance, admin }) => {
-  const { whiteList, count } = useContract(instance, admin);
+  const {
+    count,
+    whiteList,
+    status,
+    startProposal,
+    endProposal,
+    startVotingSession,
+    endVotingSession,
+    resetVotingSession,
+  } = useContract(instance, admin);
+
   const [approved, setApproved] = useState(0);
   const workflowStatus = [
     "RegisteringVoters",
@@ -14,25 +24,16 @@ const Header = ({ instance, admin }) => {
     "VotesTallied",
   ];
 
-  const {
-    status,
-    startProposal,
-    endProposal,
-    startVotingSession,
-    endVotingSession,
-    resetVotingSession,
-  } = useContract(instance, admin);
-
   useEffect(() => {
     whiteList(instance).then((values) => setApproved(values.length));
   }, [instance]);
 
   const isDisabled = (index) => !Boolean(parseInt(status) === index);
-  const isProposalsRegistrationOpen = () => {
-    console.log("approvers", count);
-    console.log("approvers", parseInt(status) === 0);
-    return !Boolean(count > 0 && parseInt(status) === 0);
-  };
+
+  const isProposalsRegistrationOpen = useMemo(
+    () => !Boolean(count > 0 && parseInt(status) === 0),
+    [count, status]
+  );
 
   return (
     !!instance && (
@@ -42,7 +43,7 @@ const Header = ({ instance, admin }) => {
             <button
               onClick={startProposal}
               className="btn btn-secondary btn-sm"
-              disabled={isProposalsRegistrationOpen()}
+              disabled={isProposalsRegistrationOpen}
             >
               Start Proposals Session
             </button>

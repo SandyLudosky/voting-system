@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useContext } from "react";
+import React, { useEffect, useMemo, useContext } from "react";
 import withContext, { Web3Context } from "./context";
 import useContract from "./context/useContract";
 import Header from "./components/Header";
@@ -38,7 +38,7 @@ const Toast = () => {
 };
 
 function App({ connectWeb3, instance, admin }) {
-  const { isValidated } = useContract(instance, admin);
+  const { transactionIsPending } = useContract(instance, admin);
 
   useEffect(() => {
     connectWeb3();
@@ -49,7 +49,7 @@ function App({ connectWeb3, instance, admin }) {
       <Toast />
       <Header />
       <div className="container">
-        {!isValidated && (
+        {!transactionIsPending && (
           <p>Please wait while we are processing your transaction ...</p>
         )}
 

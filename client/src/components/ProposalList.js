@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import { Web3Context } from "../context";
 import useContract from "../context/useContract";
 import Table from "./Table";
@@ -6,10 +6,11 @@ import Row from "./Row";
 
 const ProposalList = ({ width = "6" }) => {
   const { instance, admin } = useContext(Web3Context);
-  const { addProposal, getProposals, status, eventTxHash } = useContract(
+  const { status, eventTxHash, addProposal, getProposals } = useContract(
     instance,
     admin
   );
+
   const [proposal, setProposal] = useState(null);
   const [proposalsList, setProposalList] = useState(null);
 
@@ -18,13 +19,16 @@ const ProposalList = ({ width = "6" }) => {
     e.preventDefault();
     addProposal(proposal);
   };
-
   useEffect(() => {
     getProposals(instance).then(setProposalList);
   }, [instance]);
   useEffect(() => {
     getProposals(instance).then(setProposalList);
   }, [eventTxHash]);
+  const isProposalsRegistrationOpen = useMemo(
+    () => !Boolean(!!proposal && parseInt(status) === 1),
+    [proposal]
+  );
   return (
     <div className={`col-md-${width}`}>
       <form
@@ -41,7 +45,7 @@ const ProposalList = ({ width = "6" }) => {
         <button
           type="submit"
           className="btn btn-secondary col-sm-3"
-          disabled={!Boolean(parseInt(status) === 1 && !!proposal)}
+          disabled={isProposalsRegistrationOpen}
         >
           Add Proposal
         </button>

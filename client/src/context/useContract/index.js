@@ -1,29 +1,21 @@
 import { useState, useEffect, useMemo } from "react";
 
-// readContract
-// writeContract
 const useContract = (instance, admin) => {
-  const list = [
-    "0xc537934a1A6537DF4549E43a3234d622f63Da124",
-    "0xb2f331950C73A0865a06cdc6BaA8beB520C40A00",
-    "0x43197DA71F8142b0EDA876BEf3bd498E30037444",
-    "0xD56AeAE8b0b0316Ca9BE6dbDb71ebeefA9B7C7E4",
-    "0x7309f9401f931f81Ff1715FC73E8f0fcd370B0cD",
-  ];
-
+  const [isPending, setPending] = useState(true);
+  const [currentVoter, setCurrentVoter] = useState(null);
   const [toast, setToast] = useState({ visible: false, message: "" });
-  const [isValidated, setValidated] = useState(true);
   const [eventTxHash, setTxHash] = useState("");
   const [state, setState] = useState({
-    status: 0,
     count: 0,
     event: "",
     currentVoter: null,
   });
 
+  const [status, setStatus] = useState(0);
+
   const handleEvent = async ({ transactionHash, event }, message) => {
     countVoters();
-    setTxHash(transactionHash);
+    setTxHash(event, transactionHash);
     setToast({ visible: true, message: message });
     setState({ ...state, event: event });
     setTimeout(() => setToast({ visible: false, message: "" }), 4000);
@@ -37,8 +29,10 @@ const useContract = (instance, admin) => {
     setState({ ...state, count: votersCount });
   };
 
-  const updateStatus = (e) =>
-    setState({ ...state, status: e.returnValues.newStatus, event: e.event });
+  const updateStatus = (e) => {
+    setStatus(e.returnValues.newStatus);
+    setState({ ...state, event: e.event });
+  };
 
   const subscribeEvents = () => {
     if (!instance) {
@@ -49,24 +43,31 @@ const useContract = (instance, admin) => {
       .on("data", updateStatus)
       .on("error", console.error);
     instance.events
-      .VoterRegistered(state.currentVoter)
+      .VoterRegistered(currentVoter)
       .on("data", (data) => handleEvent(data, "✅ New voter added"))
       .on("error", console.error);
     instance.events
-      .VoterRemoved(state.currentVoter)
+      .VoterRemoved(currentVoter)
       .on("data", (data) => handleEvent(data, "❌ voter removed"))
       .on("error", console.error);
     instance.events
       .ProposalRegistered()
-      .on("data", (data) => {
-        handleEvent(data, "✅ New proposal added");
-        getStatus();
-      })
+      .on("data", (data) => handleEvent(data, "✅ New proposal added"))
       .on("error", console.error);
     instance.events
       .NewVotingSystem()
       .on("data", (data) => handleEvent(data, "Voting System reset"))
       .on("error", console.error);
+  };
+
+  const getStatus = async () => {
+    if (!instance) {
+      return false;
+    }
+    instance.methods
+      .status()
+      .call()
+      .then(([index]) => setStatus(index));
   };
 
   const whiteList = async (instance) => {
@@ -107,39 +108,29 @@ const useContract = (instance, admin) => {
     }).then((values) => values);
   };
 
-  const getStatus = async () => {
-    if (!instance) {
-      return false;
-    }
-    return await Promise.all(await instance.methods.status().call()).then(
-      ([index]) => {
-        setState({ ...state, status: index });
-      }
-    );
-  };
-
   const add = async (address) => {
+    console.log(instance);
+    setPending(false);
+    setCurrentVoter(address);
     await instance.methods
       .addVoter(address)
       .send({ from: admin })
       .then((result) => {
-        setValidated(false);
         setTimeout(() => {
-          setValidated(result.status);
+          setPending(result.status);
         }, 5000);
       });
-    setState({ ...state, currentVoter: address });
   };
 
   const remove = async (address) => {
-    setState({ ...state, currentVoter: address });
+    setPending(false);
+    setCurrentVoter(address);
     await instance.methods
       .deleteVoter(address)
       .send({ from: admin })
       .then((result) => {
-        setValidated(false);
         setTimeout(() => {
-          setValidated(result.status);
+          setPending(result.status);
         }, 5000);
       });
   };
@@ -173,8 +164,9 @@ const useContract = (instance, admin) => {
   const value = useMemo(() => {
     return {
       ...state,
+      status,
       eventTxHash,
-      isValidated,
+      transactionIsPending: isPending,
       toast,
       whiteList,
       getProposals,
@@ -187,7 +179,7 @@ const useContract = (instance, admin) => {
       resetVotingSession,
       addProposal,
     };
-  }, [state, eventTxHash, isValidated, toast]);
+  }, [status, eventTxHash, isPending, toast]);
   return value;
 };
 export default useContract;
