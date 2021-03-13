@@ -54,6 +54,10 @@ const useContract = (instance, admin) => {
       .on("data", (data) => handleEvent(data, "✅ New proposal added"))
       .on("error", console.error);
     instance.events
+      .ProposalRemoved()
+      .on("data", (data) => handleEvent(data, "✅ proposal removed"))
+      .on("error", console.error);
+    instance.events
       .NewVotingSystem()
       .on("data", (data) => handleEvent(data, "Voting System reset"))
       .on("error", console.error);
@@ -88,7 +92,7 @@ const useContract = (instance, admin) => {
           hasVoted: hasVoted,
         };
       })
-    ).then((values) => values);
+    ).then((values) => values.filter((value) => value.isWhitelisted));
   };
   const getProposals = async (instance) => {
     if (!instance) {

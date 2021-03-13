@@ -9,12 +9,12 @@ const styles = {
 const Row = ({ index, remove, content }) => (
   <tr>
     <th scope="row">{index + 1}</th>
-    <td>{content}</td>
-    <td>
+    <td width="80%">{content}</td>
+    <td width="20%">
       <button
         className="btn btn-danger btn-sm"
         style={styles.button}
-        onClick={() => remove(content)}
+        onClick={remove}
       >
         remove
       </button>

@@ -6,14 +6,13 @@ import Table from "./Table";
 import Row from "./Row";
 
 const VotersList = ({ width = "6" }) => {
-  const [voters, setVoters] = useState([]);
-  const [voterAddress, setVoterAddress] = useState(null);
-  const [approved, setApproved] = useState([]);
   const { instance, admin } = useContext(Web3Context);
   const { eventTxHash, status, whiteList, addVoter, removeVoter } = useContract(
     instance,
     admin
   );
+  const [voters, setVoters] = useState([]);
+  const [voterAddress, setVoterAddress] = useState(null);
 
   const handleOnChange = (e) => setVoterAddress(e.target.value);
   const handleOnSubmit = (e) => {
@@ -21,23 +20,14 @@ const VotersList = ({ width = "6" }) => {
     addVoter(voterAddress);
     setVoterAddress(null);
   };
-  const approveVoters = (array) => {
-    if (!array) {
-      return false;
-    }
-    const votersWhitelisted = array.filter((voter) => voter.isWhitelisted);
-    setApproved(votersWhitelisted);
-  };
 
   useEffect(() => {
     whiteList(instance).then(setVoters);
   }, [instance]);
   useEffect(() => {
     whiteList(instance).then(setVoters);
-  }, [eventTxHash]);
-  useEffect(() => {
-    approveVoters(voters);
-  }, [voters]);
+  }, [eventTxHash, voters]);
+
   const hasErrors = useMemo(() => !!voterAddress && parseInt(status) !== 0, [
     voterAddress,
   ]);
@@ -78,9 +68,15 @@ const VotersList = ({ width = "6" }) => {
         </button>
       </form>
       <Table header="Voters">
-        {!!approved &&
-          approved.map(({ address }, index) => {
-            return <Row remove={removeVoter} content={address} index={index} />;
+        {!!voters &&
+          voters.map(({ address }, index) => {
+            return (
+              <Row
+                remove={() => removeVoter(address)}
+                content={address}
+                index={index}
+              />
+            );
           })}
       </Table>
     </div>

@@ -74,7 +74,7 @@ const ProposalList = ({ width = "6" }) => {
           proposalsList.map(({ description }, index) => {
             return (
               <Row
-                remove={removeProposal}
+                remove={() => removeProposal(index)}
                 content={description}
                 index={index}
               />

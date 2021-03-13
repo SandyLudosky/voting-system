@@ -55,6 +55,7 @@ contract Voting is Ownable {
     event ProposalsRegistrationStarted();
     event ProposalsRegistrationEnded();
     event ProposalRegistered(uint256 proposalId);
+    event ProposalRemoved(uint256 proposalId);
     event VotingSessionStarted();
     event VotingSessionEnded();
     event Voted(address voter, uint256 proposalId);
@@ -155,6 +156,7 @@ contract Voting is Ownable {
     function deleteProposal(uint256 _id) public whiteListed {
         require(proposals[_id].owner == msg.sender);
         delete proposals[_id];
+        emit ProposalRemoved(_id);
     }
     //a voir si on fait function delete proposal aussi pour l'admin
     function deleteProposalAdmin(uint256 _id) public onlyOwner {
