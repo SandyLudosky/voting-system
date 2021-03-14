@@ -1,5 +1,5 @@
 import React from "react";
-import withContext from "../context";
+import withContext from "../../context";
 
 const Footer = ({ instance }) => {
   return (

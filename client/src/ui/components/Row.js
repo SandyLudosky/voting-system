@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from "react";
-import { Web3Context } from "../context";
-import useContract from "../context/useContract";
+import { Web3Context } from "../../context";
+import useContract from "../../context/useContract";
 
 const styles = {
   button: {

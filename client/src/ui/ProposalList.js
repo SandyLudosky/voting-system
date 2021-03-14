@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
 import { Web3Context } from "../context";
 import useContract from "../context/useContract";
-import Table from "./Table";
-import Row from "./Row";
+import Table from "./components/Table";
+import Row from "./components/Row";
+import Spinner from "./components/Spinner";
 
 const ProposalList = ({ width = "6" }) => {
   const [proposal, setProposal] = useState(null);
@@ -12,6 +13,7 @@ const ProposalList = ({ width = "6" }) => {
     status,
     eventTxHash,
     transactionStatus,
+    TRANSACTION_STATUS,
     getProposals,
     addProposal,
     removeProposal,
@@ -33,6 +35,14 @@ const ProposalList = ({ width = "6" }) => {
   const isProposalsRegistrationOpen = useMemo(
     () => !Boolean(!!proposal && parseInt(status) === 1),
     [proposal]
+  );
+  const isPending = useMemo(
+    () => {
+      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "ProposalRegistered") { return true}  
+      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "ProposalRemoved") { return true}  
+      return false;
+    },
+    [eventTxHash, transactionStatus]
   );
   const hasErrors = useMemo(() => !!proposal && parseInt(status) !== 1, [
     proposal,
@@ -69,8 +79,8 @@ const ProposalList = ({ width = "6" }) => {
           Add Proposal
         </button>
       </form>
-
-      <Table header="Proposals">
+      <Spinner isLoading={isPending} />
+      <Table header="Proposals" isLoading={isPending}>
         {!!proposalsList &&
           proposalsList.map(({ description, address, id }, index) => {
             return (

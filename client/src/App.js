@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useContext } from "react";
 import withContext, { Web3Context } from "./context";
 import useContract from "./context/useContract";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import VotersList from "./components/VotersList";
-import ProposalList from "./components/ProposalList";
+import Header from "./ui/components/Header";
+import Footer from "./ui/components/Footer";
+import VotersList from "./ui/VotersList";
+import ProposalList from "./ui/ProposalList";
+import Spinner from "./ui/components/Spinner";
 import "./App.css";
 
 const Toast = () => {
@@ -39,21 +40,26 @@ const Toast = () => {
 };
 
 function App({ connectWeb3, instance, admin }) {
-  const { eventTxHash, transactionStatus, TRANSACTION_STATUS } = useContract(
+  const {   
+    eventTxHash,
+    transactionStatus, 
+    TRANSACTION_STATUS } = useContract(
     instance,
     admin
   );
   useEffect(() => {
     connectWeb3();
   }, [instance]);
-  const isPending = useMemo(
-    () => transactionStatus === TRANSACTION_STATUS.PENDING,
-    [eventTxHash, transactionStatus]
-  );
+  const isPending = useMemo(() => {
+    return transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "WorkflowStatusChange"
+  },[eventTxHash, transactionStatus]);
   return (
     <>
       <Toast />
       <Header />
+      <Spinner isLoading={isPending}>
+        Please wait while we are processing your transaction ...
+      </Spinner>
       <div className="container">
         <div className="row">
           <VotersList />

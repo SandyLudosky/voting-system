@@ -1,9 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
-import withContext from "../context";
-import useContract from "../context/useContract";
+import React, { useMemo } from "react";
+import withContext from "../../context";
+import useContract from "../../context/useContract";
 
 const Header = ({ instance, admin }) => {
   const {
+    transactionStatus, 
+    TRANSACTION_STATUS,
+        eventTxHash,
     count,
     status,
     event,
@@ -22,12 +25,15 @@ const Header = ({ instance, admin }) => {
     "VotesTallied",
   ];
 
-  const isDisabled = (index) => !Boolean(parseInt(status) === index);
 
+ const isPending = useMemo(() => transactionStatus.status === TRANSACTION_STATUS.PENDING,[eventTxHash, transactionStatus]);
   const isProposalsRegistrationOpen = useMemo(
-    () => !Boolean(count > 0 && parseInt(status) === 0),
+    () => !Boolean(!isPending && count > 0 && parseInt(status) === 0),
     [count, status, event]
   );
+
+  const isDisabled = (index) => !Boolean(!isPending && parseInt(status) === index);
+
 
   return (
     !!instance && (
