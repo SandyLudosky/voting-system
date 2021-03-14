@@ -13,6 +13,7 @@ const Toast = () => {
     toast: { visible, message },
   } = useContract(instance, admin);
   const visibility = useMemo(() => (visible ? "show" : "hide"), [visible]);
+
   return (
     <div className="position-fixed bottom-5 end-0 p-3" style={{ zIndex: 5 }}>
       <div
@@ -38,21 +39,22 @@ const Toast = () => {
 };
 
 function App({ connectWeb3, instance, admin }) {
-  const { transactionIsPending } = useContract(instance, admin);
-
+  const { eventTxHash, transactionStatus, TRANSACTION_STATUS } = useContract(
+    instance,
+    admin
+  );
   useEffect(() => {
     connectWeb3();
   }, [instance]);
-
+  const isPending = useMemo(
+    () => transactionStatus === TRANSACTION_STATUS.PENDING,
+    [eventTxHash, transactionStatus]
+  );
   return (
     <>
       <Toast />
       <Header />
       <div className="container">
-        {!transactionIsPending && (
-          <p>Please wait while we are processing your transaction ...</p>
-        )}
-
         <div className="row">
           <VotersList />
           <ProposalList />

@@ -1,11 +1,12 @@
+import { useState } from "react";
+
 const ReadContract = (instance) => {
+  const [count, setCount] = useState(0);
   const countVoters = () => {
-    return new Promise((resolve) => {
-      if (!instance) {
-        return false;
-      }
-      instance.methods.votersCount().call().then(resolve);
-    });
+    if (!instance) {
+      return false;
+    }
+    instance.methods.votersCount().call().then(setCount);
   };
   const whiteList = async (instance) => {
     if (!instance) {
@@ -45,6 +46,7 @@ const ReadContract = (instance) => {
     }).then((values) => values);
   };
   return {
+    count,
     whiteList,
     getProposals,
     countVoters,

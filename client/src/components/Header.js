@@ -6,6 +6,7 @@ const Header = ({ instance, admin }) => {
   const {
     count,
     status,
+    event,
     startProposalSession,
     endProposalSession,
     startVotingSession,
@@ -25,7 +26,7 @@ const Header = ({ instance, admin }) => {
 
   const isProposalsRegistrationOpen = useMemo(
     () => !Boolean(count > 0 && parseInt(status) === 0),
-    [count, status]
+    [count, status, event]
   );
 
   return (

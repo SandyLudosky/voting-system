@@ -6,13 +6,18 @@ import Table from "./Table";
 import Row from "./Row";
 
 const VotersList = ({ width = "6" }) => {
-  const { instance, admin } = useContext(Web3Context);
-  const { eventTxHash, status, whiteList, addVoter, removeVoter } = useContract(
-    instance,
-    admin
-  );
   const [voters, setVoters] = useState([]);
   const [voterAddress, setVoterAddress] = useState(null);
+  const { instance, admin } = useContext(Web3Context);
+  const {
+    transactionStatus,
+    TRANSACTION_STATUS,
+    eventTxHash,
+    status,
+    whiteList,
+    addVoter,
+    removeVoter,
+  } = useContract(instance, admin);
 
   const handleOnChange = (e) => setVoterAddress(e.target.value);
   const handleOnSubmit = (e) => {
@@ -28,13 +33,17 @@ const VotersList = ({ width = "6" }) => {
     whiteList(instance).then(setVoters);
   }, [eventTxHash, voters]);
 
-  const hasErrors = useMemo(() => !!voterAddress && parseInt(status) !== 0, [
-    voterAddress,
-  ]);
   const isVoterRegistrationOpen = useMemo(
     () => !Boolean(!!voterAddress && parseInt(status) === 0),
     [voterAddress]
   );
+  const isPending = useMemo(
+    () => transactionStatus === TRANSACTION_STATUS.PENDING,
+    [eventTxHash, transactionStatus]
+  );
+  const hasErrors = useMemo(() => !!voterAddress && parseInt(status) !== 0, [
+    voterAddress,
+  ]);
   return (
     <div className={`col-md-${width}`}>
       <form
@@ -67,7 +76,7 @@ const VotersList = ({ width = "6" }) => {
           Add Voter
         </button>
       </form>
-      <Table header="Voters">
+      <Table header="Voters" isLoading={isPending}>
         {!!voters &&
           voters.map(({ address }, index) => {
             return (

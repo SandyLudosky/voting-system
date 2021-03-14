@@ -11,7 +11,7 @@ const ProposalList = ({ width = "6" }) => {
   const {
     status,
     eventTxHash,
-    transactionIsPending,
+    transactionStatus,
     getProposals,
     addProposal,
     removeProposal,

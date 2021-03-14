@@ -1,10 +1,16 @@
 import { useState, useEffect, useMemo } from "react";
+import Web3 from "web3";
 import WriteContract from "./writeContract";
 import ReadContract from "./readContract";
 
 const useContract = (instance, admin) => {
+  const TRANSACTION_STATUS = {
+    NIL: "null",
+    PENDING: "pending",
+    COMPLETED: "completed",
+  };
   const {
-    isPending,
+    state,
     currentVoter,
     addVoter,
     removeVoter,
@@ -18,25 +24,41 @@ const useContract = (instance, admin) => {
     vote,
   } = WriteContract(instance, admin);
 
-  const { whiteList, getProposals, countVoters } = ReadContract(instance);
+  const { count, whiteList, getProposals, countVoters } = ReadContract(
+    instance
+  );
+  const [transactionStatus, setTransactionStatus] = useState(
+    TRANSACTION_STATUS.NIL
+  );
 
-  const [count, setCount] = useState(0);
   const [event, setEvent] = useState(null);
   const [toast, setToast] = useState({ visible: false, message: "" });
   const [status, setStatus] = useState(0);
   const [eventTxHash, setTxHash] = useState("");
 
-  const handleEvent = async ({ transactionHash, event }, message) => {
-    countVoters().then(setCount);
-    setTxHash(event, transactionHash);
+  const handleTransactionStatus = async (transactionHash) => {
+    setTransactionStatus(TRANSACTION_STATUS.PENDING);
+    const web3 = new Web3(window.ethereum);
+    web3.eth.getTransactionReceipt(transactionHash).then((result) => {
+      setTimeout(() => {
+        setTransactionStatus(TRANSACTION_STATUS.COMPLETED);
+        console.log(result.status);
+      }, 5000);
+    });
+  };
+  const handleEvent = ({ transactionHash, event }, message) => {
+    countVoters();
+    handleTransactionStatus(transactionHash);
+    setTxHash(transactionHash);
     setToast({ visible: true, message: message });
     setEvent(event);
     setTimeout(() => setToast({ visible: false, message: "" }), 4000);
   };
 
   const updateStatus = (e) => {
+    handleTransactionStatus(e.transactionHash);
     setStatus(e.returnValues.newStatus);
-    setEvent(event);
+    setEvent(e.event);
   };
   const getStatus = async () => {
     if (!instance) {
@@ -81,15 +103,16 @@ const useContract = (instance, admin) => {
   useEffect(() => {
     subscribeEvents();
     getStatus();
-    countVoters().then(setCount);
+    countVoters();
   }, [instance]);
 
   return useMemo(() => {
     return {
+      TRANSACTION_STATUS,
+      transactionStatus,
       status,
       count,
       eventTxHash,
-      transactionIsPending: isPending,
       toast,
       whiteList,
       getProposals,
@@ -104,6 +127,6 @@ const useContract = (instance, admin) => {
       removeProposal,
       vote,
     };
-  }, [status, count, eventTxHash, isPending, toast]);
+  }, [status, event, transactionStatus, count, eventTxHash, state, toast]);
 };
 export default useContract;

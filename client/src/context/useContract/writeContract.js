@@ -1,59 +1,22 @@
 import { useState } from "react";
 
 const WriteContract = (instance, admin) => {
-  const [isPending, setPending] = useState(true);
   const [currentVoter, setCurrentVoter] = useState(null);
 
   const addVoter = async (address) => {
-    setPending(false);
     setCurrentVoter(address);
-    await instance.methods
-      .addVoter(address)
-      .send({ from: admin })
-      .then((result) => {
-        setTimeout(() => {
-          setPending(result.status);
-        }, 5000);
-      });
+    await instance.methods.addVoter(address).send({ from: admin });
   };
-
   const removeVoter = async (address) => {
-    setPending(false);
     setCurrentVoter(address);
-    await instance.methods
-      .deleteVoter(address)
-      .send({ from: admin })
-      .then((result) => {
-        setTimeout(() => {
-          setPending(result.status);
-        }, 5000);
-      });
+    await instance.methods.deleteVoter(address).send({ from: admin });
   };
-
   const addProposal = async (content) => {
-    setPending(false);
-    await instance.methods
-      .addProposal(content)
-      .send({ from: admin })
-      .then((result) => {
-        setTimeout(() => {
-          setPending(result.status);
-        }, 5000);
-      });
+    await instance.methods.addProposal(content).send({ from: admin });
   };
-
   const removeProposal = async (content) => {
-    setPending(false);
-    await instance.methods
-      .deleteProposal(content)
-      .send({ from: admin })
-      .then((result) => {
-        setTimeout(() => {
-          setPending(result.status);
-        }, 5000);
-      });
+    await instance.methods.deleteProposal(content).send({ from: admin });
   };
-
   const vote = async (id) => {
     await instance.methods.vote(id).send({ from: admin });
   };
@@ -74,7 +37,6 @@ const WriteContract = (instance, admin) => {
   };
 
   return {
-    isPending,
     currentVoter,
     addVoter,
     removeVoter,
