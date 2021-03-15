@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import withContext from "../../context";
-import useContract from "../../context/useContract";
+import useContract from "../../hooks/useContract";
 
 const Header = ({ instance, admin }) => {
   const {
-    transactionStatus, 
+    transactionStatus,
     TRANSACTION_STATUS,
-        eventTxHash,
+    eventTxHash,
     count,
     status,
     event,
@@ -25,16 +25,17 @@ const Header = ({ instance, admin }) => {
     "VotesTallied",
   ];
 
-
- const isPending = useMemo(() => transactionStatus.status === TRANSACTION_STATUS.PENDING,[eventTxHash, transactionStatus]);
+  const isPending = useMemo(
+    () => transactionStatus.status === TRANSACTION_STATUS.PENDING,
+    [eventTxHash, transactionStatus]
+  );
   const isProposalsRegistrationOpen = useMemo(
     () => !Boolean(!isPending && count > 0 && parseInt(status) === 0),
     [count, status, event]
   );
 
-  const isDisabled = (index) => !Boolean(!isPending && parseInt(status) === index);
-
-
+  const isDisabled = (index) =>
+    !Boolean(!isPending && parseInt(status) === index);
   return (
     !!instance && (
       <nav className="navbar navbar-light bg-light">

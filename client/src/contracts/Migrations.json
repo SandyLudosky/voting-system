@@ -48,18 +48,18 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"last_completed_migration\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"completed\",\"type\":\"uint256\"}],\"name\":\"setCompleted\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/sandyinstructor/Documents/\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83d\\udcbbBLOCKCHAIN/Alyra/templates/truffle-voting-syst/contracts/Migrations.sol\":\"Migrations\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/sandyinstructor/Documents/\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83d\\udcbbBLOCKCHAIN/Alyra/templates/truffle-voting-syst/contracts/Migrations.sol\":{\"keccak256\":\"0xb849e738d1fa4442c9adc31183524188dd6a865fa6323c0bb24ad36b54bea8ed\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a962e9a2576b624e2a829220dc5993fa540845d8c4a2577e84a58b4b1387ef6b\",\"dweb:/ipfs/QmRUCF8fQdWtGFEdSPyF4tysLFrt2oRux6CEc3wvd5jcqz\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610185806100606000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063445df0ac146100465780638da5cb5b14610064578063fdacd57614610098575b600080fd5b61004e6100c6565b6040518082815260200191505060405180910390f35b61006c6100cc565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100c4600480360360208110156100ae57600080fd5b81019080803590602001909291905050506100f0565b005b60015481565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141561014c57806001819055505b5056fea2646970667358221220db0030aa6e05cb00031ef35f568629916facb79dd19b787cacee4d07cc5a8da764736f6c63430007060033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c8063445df0ac146100465780638da5cb5b14610064578063fdacd57614610098575b600080fd5b61004e6100c6565b6040518082815260200191505060405180910390f35b61006c6100cc565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100c4600480360360208110156100ae57600080fd5b81019080803590602001909291905050506100f0565b005b60015481565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141561014c57806001819055505b5056fea2646970667358221220db0030aa6e05cb00031ef35f568629916facb79dd19b787cacee4d07cc5a8da764736f6c63430007060033",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"last_completed_migration\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"completed\",\"type\":\"uint256\"}],\"name\":\"setCompleted\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/sandyinstructor/Documents/\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83d\\udcbbBLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Migrations.sol\":\"Migrations\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/sandyinstructor/Documents/\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83d\\udcbbBLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Migrations.sol\":{\"keccak256\":\"0xb849e738d1fa4442c9adc31183524188dd6a865fa6323c0bb24ad36b54bea8ed\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a962e9a2576b624e2a829220dc5993fa540845d8c4a2577e84a58b4b1387ef6b\",\"dweb:/ipfs/QmRUCF8fQdWtGFEdSPyF4tysLFrt2oRux6CEc3wvd5jcqz\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610185806100606000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063445df0ac146100465780638da5cb5b14610064578063fdacd57614610098575b600080fd5b61004e6100c6565b6040518082815260200191505060405180910390f35b61006c6100cc565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100c4600480360360208110156100ae57600080fd5b81019080803590602001909291905050506100f0565b005b60015481565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141561014c57806001819055505b5056fea264697066735822122089546d9279b362ea1277a3e3fcda7bad52c9869246bb81e3e03837b5a3be45c164736f6c63430007060033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c8063445df0ac146100465780638da5cb5b14610064578063fdacd57614610098575b600080fd5b61004e6100c6565b6040518082815260200191505060405180910390f35b61006c6100cc565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100c4600480360360208110156100ae57600080fd5b81019080803590602001909291905050506100f0565b005b60015481565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141561014c57806001819055505b5056fea264697066735822122089546d9279b362ea1277a3e3fcda7bad52c9869246bb81e3e03837b5a3be45c164736f6c63430007060033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
   "sourceMap": "57:311:1:-:0;;;209:50;;;;;;;;;;244:10;236:5;;:18;;;;;;;;;;;;;;;;;;57:311;;;;;;",
   "deployedSourceMap": "57:311:1:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;105:36;;;:::i;:::-;;;;;;;;;;;;;;;;;;;81:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;263:103;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;105:36;;;;:::o;81:20::-;;;;;;;;;;;;:::o;263:103::-;192:5;;;;;;;;;;178:19;;:10;:19;;;174:26;;;352:9:::1;325:24;:36;;;;174:26:::0;263:103;:::o",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.7.4;\n\ncontract Migrations {\n  address public owner;\n  uint public last_completed_migration;\n\n  modifier restricted() {\n    if (msg.sender == owner) _;\n  }\n\n  constructor() public {\n    owner = msg.sender;\n  }\n\n  function setCompleted(uint completed) public restricted {\n    last_completed_migration = completed;\n  }\n}\n",
-  "sourcePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/templates/truffle-voting-syst/contracts/Migrations.sol",
+  "sourcePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Migrations.sol",
   "ast": {
-    "absolutePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/templates/truffle-voting-syst/contracts/Migrations.sol",
+    "absolutePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Migrations.sol",
     "exportedSymbols": {
       "Migrations": [
         59
@@ -454,7 +454,7 @@
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/templates/truffle-voting-syst/contracts/Migrations.sol",
+      "absolutePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Migrations.sol",
       "exportedSymbols": {
         "Migrations": [
           59
@@ -920,12 +920,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x25ED4b6c8ba7d2F3d9dD119690860DffcE03D49a",
-      "transactionHash": "0xcdab69a6e76c1a8fde11d54823636034f92f49747c46829a1d0e0f16c00e5c11"
+      "address": "0x4F8B26179279bcf51d1352401044998894f33981",
+      "transactionHash": "0x5ded94a02f3a3b613ed80e027914e4ef5509341c6b9c23433608c147144c88bf"
     }
   },
   "schemaVersion": "3.3.4",
-  "updatedAt": "2021-03-15T00:32:07.452Z",
+  "updatedAt": "2021-03-15T09:14:26.301Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

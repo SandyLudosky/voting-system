@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
 import { Web3Context } from "../context";
-import useContract from "../context/useContract";
+import useContract from "../hooks/useContract";
 import Table from "./components/Table";
 import Row from "./components/Row";
 import Spinner from "./components/Spinner";

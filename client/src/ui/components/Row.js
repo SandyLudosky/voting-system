@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from "react";
 import { Web3Context } from "../../context";
-import useContract from "../../context/useContract";
+import useContract from "../../hooks/useContract";
 
 const styles = {
   button: {
@@ -32,13 +32,20 @@ const Row = ({
   index,
   remove,
   content,
+  owner,
   id,
   voteCount = 0,
   isProposal = false,
 }) => {
-  const { instance, admin } = useContext(Web3Context);
+  const { instance, admin, currentUser } = useContext(Web3Context);
   const { status, vote } = useContract(instance, admin);
   const hasVotes = useMemo(() => isProposal && voteCount > 0, [voteCount]);
+
+  const isOwner = useMemo(() => currentUser === owner, [currentUser, owner]);
+  const isNotAllowed = useMemo(() => currentUser !== owner, [
+    currentUser,
+    owner,
+  ]);
   return (
     <tr>
       <th scope="row">{index + 1}</th>
@@ -60,8 +67,11 @@ const Row = ({
           &nbsp;
           <button
             className="btn btn-danger btn-sm"
-            style={styles.button}
+            style={{
+              ...styles.button,
+            }}
             onClick={remove}
+            disabled={isOwner}
           >
             remove
           </button>

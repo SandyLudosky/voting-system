@@ -6,6 +6,7 @@ import { Web3Context } from ".";
 const { Provider } = Web3Context;
 
 const Web3Provider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [state, setState] = useState({
     web3: null,
     accounts: null,
@@ -45,15 +46,17 @@ const Web3Provider = ({ children }) => {
       .then(({ web3, instance, accounts }) => {
         setState({ web3, accounts, contract: instance, admin: accounts[0] });
         getBalance(web3, accounts);
+        setCurrentUser(accounts[0]);
       });
   };
   const value = useMemo(() => {
     return {
       connectWeb3: connect,
       instance: state.contract,
+      currentUser,
       ...state,
     };
-  }, [state]);
+  }, [state, currentUser]);
   return <Provider value={value}>{children}</Provider>;
 };
 export default Web3Provider;

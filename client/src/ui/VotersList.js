@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
 import { Web3Context } from "../context";
-import useContract from "../context/useContract";
+import useContract from "../hooks/useContract";
 import Table from "./components/Table";
 import Row from "./components/Row";
 import Spinner from "./components/Spinner";
@@ -37,14 +37,21 @@ const VotersList = ({ width = "6" }) => {
     () => !Boolean(!!voterAddress && parseInt(status) === 0),
     [voterAddress]
   );
-  const isPending = useMemo(
-    () => {
-      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "VoterRegistered") { return true}  
-      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "VoterRemoved") { return true}  
-      return false;
-    },
-    [eventTxHash, transactionStatus]
-  );
+  const isPending = useMemo(() => {
+    if (
+      transactionStatus.status === TRANSACTION_STATUS.PENDING &&
+      transactionStatus.event === "VoterRegistered"
+    ) {
+      return true;
+    }
+    if (
+      transactionStatus.status === TRANSACTION_STATUS.PENDING &&
+      transactionStatus.event === "VoterRemoved"
+    ) {
+      return true;
+    }
+    return false;
+  }, [eventTxHash, transactionStatus]);
   const hasErrors = useMemo(() => !!voterAddress && parseInt(status) !== 0, [
     voterAddress,
   ]);
