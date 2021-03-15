@@ -40,10 +40,7 @@ const Toast = () => {
 };
 
 function App({ connectWeb3, instance, admin }) {
-  const {   
-    eventTxHash,
-    transactionStatus, 
-    TRANSACTION_STATUS } = useContract(
+  const { eventTxHash, transactionStatus, TRANSACTION_STATUS } = useContract(
     instance,
     admin
   );
@@ -51,8 +48,11 @@ function App({ connectWeb3, instance, admin }) {
     connectWeb3();
   }, [instance]);
   const isPending = useMemo(() => {
-    return transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "WorkflowStatusChange"
-  },[eventTxHash, transactionStatus]);
+    return (
+      transactionStatus.status === TRANSACTION_STATUS.PENDING &&
+      transactionStatus.event === "WorkflowStatusChange"
+    );
+  }, [eventTxHash, transactionStatus]);
   return (
     <>
       <Toast />

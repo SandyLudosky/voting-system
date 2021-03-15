@@ -6,6 +6,7 @@ const styles = {
     display: "block",
     height: "400px",
     overflow: "scroll",
+    width: "98%",
   },
 };
 const Table = ({ header, children, isLoading }) => {
@@ -13,7 +14,7 @@ const Table = ({ header, children, isLoading }) => {
     !isLoading && (
       <table className="table">
         <thead style={styles.header}>
-          <tr style={{ width: "100%" }}>
+          <tr>
             <th scope="col">#</th>
             <th scope="col">{header}</th>
             <th scope="col">Select</th>

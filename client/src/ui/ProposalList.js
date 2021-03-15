@@ -36,14 +36,21 @@ const ProposalList = ({ width = "6" }) => {
     () => !Boolean(!!proposal && parseInt(status) === 1),
     [proposal]
   );
-  const isPending = useMemo(
-    () => {
-      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "ProposalRegistered") { return true}  
-      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "ProposalRemoved") { return true}  
-      return false;
-    },
-    [eventTxHash, transactionStatus]
-  );
+  const isPending = useMemo(() => {
+    if (
+      transactionStatus.status === TRANSACTION_STATUS.PENDING &&
+      transactionStatus.event === "ProposalRegistered"
+    ) {
+      return true;
+    }
+    if (
+      transactionStatus.status === TRANSACTION_STATUS.PENDING &&
+      transactionStatus.event === "ProposalRemoved"
+    ) {
+      return true;
+    }
+    return false;
+  }, [eventTxHash, transactionStatus]);
   const hasErrors = useMemo(() => !!proposal && parseInt(status) !== 1, [
     proposal,
   ]);
@@ -82,15 +89,14 @@ const ProposalList = ({ width = "6" }) => {
       <Spinner isLoading={isPending} />
       <Table header="Proposals" isLoading={isPending}>
         {!!proposalsList &&
-          proposalsList.map(({ description, address, id }, index) => {
+          proposalsList.map((proposal, index) => {
             return (
               <Row
-                remove={() => removeProposal(index)}
-                content={description}
+                {...proposal}
                 index={index}
                 isProposal={true}
-                address={address}
-                id={id}
+                content={proposal.description}
+                remove={() => removeProposal(proposal.id)}
               />
             );
           })}
