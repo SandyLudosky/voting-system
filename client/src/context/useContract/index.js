@@ -51,59 +51,78 @@ const useContract = (instance, admin) => {
     setTxHash(data.transactionHash);
     setEvent(data.event);
   };
-  
   const displayToast = (message) => {
     setToast({ visible: true, message: message });
     setTimeout(() => setToast({ visible: false, message: "" }), 4000);
-  }
-  const handleTransaction = async (data, message) => {
-    return new Promise(resolve => {
-      setTransactionStatus({ status: TRANSACTION_STATUS.PENDING, event : data.event });
-        const web3 = new Web3(window.ethereum);
-        web3.eth.getTransactionReceipt(data.transactionHash).then((result) => {
-          setTimeout(() => {
-            setTransactionStatus({
-              status: result.status
-                ? TRANSACTION_STATUS.COMPLETED
-                : TRANSACTION_STATUS.NIL,
-              event: data.event,
-            });
-             countVoters();
-             if (data.event !== 'WorkflowStatusChange') {displayToast(message)}
-     
-          }, 5000);
-          resolve(data)
-        });
-    })
   };
-  
+  const handleTransaction = async (data, message) => {
+    return new Promise((resolve) => {
+      setTransactionStatus({
+        status: TRANSACTION_STATUS.PENDING,
+        event: data.event,
+      });
+      const web3 = new Web3(window.ethereum);
+      web3.eth.getTransactionReceipt(data.transactionHash).then((result) => {
+        setTimeout(() => {
+          setTransactionStatus({
+            status: result.status
+              ? TRANSACTION_STATUS.COMPLETED
+              : TRANSACTION_STATUS.NIL,
+            event: data.event,
+          });
+          countVoters();
+          if (data.event !== "WorkflowStatusChange") {
+            displayToast(message);
+          }
+        }, 5000);
+        resolve(data);
+      });
+    });
+  };
+
   const subscribeEvents = () => {
     if (!instance) {
       return false;
     }
     instance.events
       .WorkflowStatusChange()
-      .on("data", (data) => handleTransaction(data, "✅ New voter added").then(updateStatus))
+      .on("data", (data) =>
+        handleTransaction(data, "✅ New voter added").then(updateStatus)
+      )
       .on("error", console.error);
     instance.events
       .VoterRegistered(currentVoter)
-      .on("data", (data) => handleTransaction(data, "✅ New voter added").then(registerEvent))
+      .on("data", (data) =>
+        handleTransaction(data, "✅ New voter added").then(registerEvent)
+      )
       .on("error", console.error);
     instance.events
       .VoterRemoved(currentVoter)
-      .on("data", (data) => handleTransaction(data, "❌ voter removed").then(registerEvent))
+      .on("data", (data) =>
+        handleTransaction(data, "❌ voter removed").then(registerEvent)
+      )
       .on("error", console.error);
     instance.events
       .ProposalRegistered()
-      .on("data", (data) => handleTransaction(data, "✅ New proposal added").then(registerEvent))
+      .on("data", (data) =>
+        handleTransaction(data, "✅ New proposal added").then(registerEvent)
+      )
       .on("error", console.error);
     instance.events
       .ProposalRemoved()
-      .on("data", (data) => handleTransaction(data, "✅ proposal removed").then(registerEvent))
+      .on("data", (data) =>
+        handleTransaction(data, "✅ proposal removed").then(registerEvent)
+      )
       .on("error", console.error);
     instance.events
       .NewVotingSystem()
-      .on("data", (data) => handleTransaction(data, "Voting System reset").then(registerEvent))
+      .on("data", (data) =>
+        handleTransaction(data, "Voting System reset").then(registerEvent)
+      )
+      .on("error", console.error);
+    instance.events
+      .Voted()
+      .on("data", (data) => handleTransaction(data).then(registerEvent))
       .on("error", console.error);
   };
 

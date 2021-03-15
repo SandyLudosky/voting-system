@@ -45,7 +45,13 @@ const Row = ({
       <td width="60%">{content}</td>
       <td width="20%">{hasVotes && <VotesCount votesCount={voteCount} />}</td>
       <td width="20%">
-        <div className="d-flex" style={{ marginRight: !isProposal && 3 }}>
+        <div
+          className="d-flex"
+          style={{
+            marginRight: !isProposal && 20,
+            marginLeft: !isProposal && "-15px",
+          }}
+        >
           {isProposal && parseInt(status) === 3 && (
             <button className="btn btn-info btn-sm" onClick={() => vote(id)}>
               vote

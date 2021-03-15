@@ -1,12 +1,12 @@
 import React from "react";
 
 const styles = {
-  header: { display: "inherit", width: "98%" },
+  header: { display: "inherit", width: "95%" },
   table: {
     display: "block",
     height: "400px",
     overflow: "scroll",
-    width: "98%",
+    width: "95%",
   },
 };
 const Table = ({ header, children, isLoading }) => {
