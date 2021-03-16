@@ -39,10 +39,10 @@ const Web3Provider = ({ children }) => {
     connectWeb3
       .then(connectBlockchain, console.error)
       .then(({ web3, instance, accounts, status }) => {
-        
-        setState({ web3, accounts, contract: instance, admin: accounts[0], winningProposal: undefined, endVoting: status });
+        setState({ web3, accounts, contract: instance, admin: accounts[0], endVoting: status });
       });
   };
+
   const value = useMemo(() => {
     return {
       connectWeb3: connect,

@@ -40,10 +40,10 @@ const Toast = () => {
   );
 };
 
-function App({ connectWeb3, instance, admin, endVoting }) {
+function App({ connectWeb3, instance, admin, endVoting}) {
   const { eventTxHash, transactionStatus, TRANSACTION_STATUS } = useContract(
     instance,
-    admin
+    admin,
   );
   
 
