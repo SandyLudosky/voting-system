@@ -46,15 +46,19 @@ const useContract = (instance, admin) => {
       .call()
       .then(([index]) => setStatus(index));
   };
+
   const updateStatus = (data) => setStatus(data.returnValues.newStatus);
+  
   const registerEvent = (data) => {
     setTxHash(data.transactionHash);
     setEvent(data.event);
   };
+
   const displayToast = (message) => {
     setToast({ visible: true, message: message });
-    setTimeout(() => setToast({ visible: false, message: "" }), 4000);
+    setTimeout(() => setToast({ visible: false, message: "" }), 2000);
   };
+
   const handleTransaction = async (data, message) => {
     return new Promise((resolve) => {
       setTransactionStatus({

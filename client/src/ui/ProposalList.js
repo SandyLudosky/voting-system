@@ -97,6 +97,7 @@ const ProposalList = ({ width = "6" }) => {
                 isProposal={true}
                 content={proposal.description}
                 remove={() => removeProposal(proposal.id)}
+                key={proposal.id}
               />
             );
           })}

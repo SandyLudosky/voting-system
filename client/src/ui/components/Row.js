@@ -19,7 +19,7 @@ const VotesCount = ({ votesCount }) => {
           </>
         ) : (
           <>
-            <i class="fas fa-check-double" style={{ color: "#27ae60" }}></i>{" "}
+            <i className="fas fa-check-double" style={{ color: "#27ae60" }}></i>{" "}
             {votesCount}
           </>
         )}

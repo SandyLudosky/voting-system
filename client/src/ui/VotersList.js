@@ -89,6 +89,7 @@ const VotersList = ({ width = "6" }) => {
                 remove={() => removeVoter(address)}
                 content={address}
                 index={index}
+                key={address}
               />
             );
           })}
