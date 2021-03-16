@@ -89,46 +89,18 @@ const useContract = (instance, admin) => {
     if (!instance) {
       return false;
     }
-    instance.events
-      .WorkflowStatusChange()
-      .on("data", (data) =>
-        handleTransaction(data, "✅ New voter added").then(updateStatus)
-      )
-      .on("error", console.error);
-    instance.events
-      .VoterRegistered(currentVoter)
-      .on("data", (data) =>
-        handleTransaction(data, "✅ New voter added").then(registerEvent)
-      )
-      .on("error", console.error);
-    instance.events
-      .VoterRemoved(currentVoter)
-      .on("data", (data) =>
-        handleTransaction(data, "❌ voter removed").then(registerEvent)
-      )
-      .on("error", console.error);
-    instance.events
-      .ProposalRegistered()
-      .on("data", (data) =>
-        handleTransaction(data, "✅ New proposal added").then(registerEvent)
-      )
-      .on("error", console.error);
-    instance.events
-      .ProposalRemoved()
-      .on("data", (data) =>
-        handleTransaction(data, "✅ proposal removed").then(registerEvent)
-      )
-      .on("error", console.error);
-    instance.events
-      .NewVotingSystem()
-      .on("data", (data) =>
-        handleTransaction(data, "Voting System reset").then(registerEvent)
-      )
-      .on("error", console.error);
-    instance.events
-      .Voted()
-      .on("data", (data) => handleTransaction(data).then(registerEvent))
-      .on("error", console.error);
+    instance.events.allEvents( {
+      },(error,event)=> {
+        if(error) {
+          throw error
+        }
+        handleTransaction(event, `✅ ${event.event} !`)
+        if(event.event == "WorkflowStatusChange"){
+          updateStatus(event);
+        } else {
+          registerEvent(event);
+        }
+      })
   };
 
   useEffect(() => {
