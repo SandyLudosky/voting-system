@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useContext } from "react";
+import React, { useEffect, useMemo, useContext, useState } from "react";
 import withContext, { Web3Context } from "./context";
 import useContract from "./context/useContract";
 import Header from "./ui/components/Header";
 import Footer from "./ui/components/Footer";
+import Winner from "./ui/components/Winner";
 import VotersList from "./ui/VotersList";
 import ProposalList from "./ui/ProposalList";
 import Spinner from "./ui/components/Spinner";
@@ -39,14 +40,17 @@ const Toast = () => {
   );
 };
 
-function App({ connectWeb3, instance, admin }) {
+function App({ connectWeb3, instance, admin, endVoting }) {
   const { eventTxHash, transactionStatus, TRANSACTION_STATUS } = useContract(
     instance,
     admin
   );
+  
+
   useEffect(() => {
     connectWeb3();
   }, [instance]);
+
   const isPending = useMemo(() => {
     return (
       transactionStatus.status === TRANSACTION_STATUS.PENDING &&
@@ -60,12 +64,13 @@ function App({ connectWeb3, instance, admin }) {
       <Spinner isLoading={isPending}>
         Please wait while we are processing your transaction ...
       </Spinner>
-      <div className="container">
+      {endVoting ? <Winner/> : null}
+         <div className="container">
         <div className="row">
           <VotersList />
           <ProposalList />
         </div>
-      </div>
+      </div>       
       <Footer />
     </>
   );

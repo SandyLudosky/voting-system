@@ -2,12 +2,14 @@ import { useState } from "react";
 
 const ReadContract = (instance) => {
   const [count, setCount] = useState(0);
+
   const countVoters = () => {
     if (!instance) {
       return false;
     }
     instance.methods.votersCount().call().then(setCount);
   };
+
   const whiteList = async (instance) => {
     if (!instance) {
       return false;
@@ -29,6 +31,7 @@ const ReadContract = (instance) => {
       })
     ).then((values) => values.filter((value) => value.isWhitelisted));
   };
+
   const getProposals = async (instance) => {
     if (!instance) {
       return false;
@@ -45,12 +48,20 @@ const ReadContract = (instance) => {
       resolve(propals);
     }).then((values) => values);
   };
+
+  const getWinningProposal = async (instance) => {
+    const proposals = await getProposals(instance);
+    proposals.sort((a,b) => b.voteCount - a.voteCount)
+    return proposals[0];
+  }
+
   return {
     count,
     whiteList,
     getProposals,
     countVoters,
     getProposals,
+    getWinningProposal,
   };
 };
 export default ReadContract;

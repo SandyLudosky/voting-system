@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import withContext from "../../context";
 import useContract from "../../context/useContract";
 
-const Header = ({ instance, admin }) => {
+const Header = ({ instance, admin, endVoting }) => {
   const {
     transactionStatus, 
     TRANSACTION_STATUS,
@@ -72,13 +72,13 @@ const isProposalsRegistrationOpen = useMemo(
               End Voting Session
             </button>
             &nbsp;
-            <button
+           {/*  <button
               onClick={resetVotingSession}
               disabled={!Boolean(parseInt(status) !== 0)}
               className="btn btn-danger btn-sm"
             >
               Reset
-            </button>
+            </button> */}
           </div>
           <span className="navbar-brand mb-0 h1">
             status : {workflowStatus[status]}

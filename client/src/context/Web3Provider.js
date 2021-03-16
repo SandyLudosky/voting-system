@@ -11,6 +11,7 @@ const Web3Provider = ({ children }) => {
     accounts: null,
     contract: null,
     admin: null,
+    endVoting: false,
   });
 
   const connectWeb3 = new Promise(async (resolve) => {
@@ -29,22 +30,17 @@ const Web3Provider = ({ children }) => {
         deployedNetwork && deployedNetwork.address
       );
       instance && console.log("connected to blockchain");
-      resolve({ web3, instance, accounts });
+      const status = await instance.methods.status().call() == 4;
+      console.log('session ended :', status);
+      resolve({ web3, instance, accounts, status });
     });
-
-  const getBalance = (web3, accounts) => {
-    web3.eth.getBalance(accounts[0], (err, wei) => {
-      const balance = web3.utils.fromWei(wei, "ether"); // convertir la valeur en ether
-      console.log(balance);
-    });
-  };
 
   const connect = () => {
     connectWeb3
       .then(connectBlockchain, console.error)
-      .then(({ web3, instance, accounts }) => {
-        setState({ web3, accounts, contract: instance, admin: accounts[0] });
-        getBalance(web3, accounts);
+      .then(({ web3, instance, accounts, status }) => {
+        
+        setState({ web3, accounts, contract: instance, admin: accounts[0], winningProposal: undefined, endVoting: status });
       });
   };
   const value = useMemo(() => {

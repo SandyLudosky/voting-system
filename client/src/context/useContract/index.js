@@ -24,7 +24,7 @@ const useContract = (instance, admin) => {
     vote,
   } = WriteContract(instance, admin);
 
-  const { count, whiteList, getProposals, countVoters } = ReadContract(
+  const { count, whiteList, getProposals, countVoters, getWinningProposal } = ReadContract(
     instance
   );
   const [transactionStatus, setTransactionStatus] = useState({
@@ -44,7 +44,8 @@ const useContract = (instance, admin) => {
     instance.methods
       .status()
       .call()
-      .then(([index]) => setStatus(index));
+      .then(([index]) => setStatus(index))
+
   };
 
   const updateStatus = (data) => setStatus(data.returnValues.newStatus);
@@ -146,6 +147,7 @@ const useContract = (instance, admin) => {
       toast,
       whiteList,
       getProposals,
+      getWinningProposal,
       addVoter,
       removeVoter,
       startProposalSession,

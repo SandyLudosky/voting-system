@@ -171,7 +171,7 @@ contract Voting is Ownable {
         emit Voted(msg.sender, _id);
     }
 
-    function count() public onlyOwner {
+    /* function count() public onlyOwner {
         require(status == WorkflowStatus.VotingSessionEnded);
         uint8 id;
         uint256 highestCount;
@@ -185,6 +185,6 @@ contract Voting is Ownable {
         winningProposalId = id;
         status = WorkflowStatus.VotesTallied;
         emit VotesTallied(winningProposalId);   
-    }
+    } */
 
 }
