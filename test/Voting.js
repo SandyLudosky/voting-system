@@ -20,8 +20,8 @@ contract("Voting", (accounts) => {
   });
 
   it("should be status == RegisteringVoters", async () => {
-    const status = await votingInstance.status.call();
-    assert.equal(status.toNumber(), 0);
+    const status = await votingInstance.status();
+    assert.equal(status.toNumber(), 0,"status is not RegisteringVoters");
   });
 
   context("add/delete voter", () => {
