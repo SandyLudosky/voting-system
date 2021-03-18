@@ -51,16 +51,15 @@ const ReadContract = (instance) => {
 
   const getWinningProposal = async (instance) => {
     const proposals = await getProposals(instance);
-    proposals.sort((a,b) => b.voteCount - a.voteCount)
+    proposals.sort((a, b) => b.voteCount - a.voteCount);
     return proposals[0];
-  }
+  };
 
   return {
     count,
     whiteList,
     getProposals,
     countVoters,
-    getProposals,
     getWinningProposal,
   };
 };

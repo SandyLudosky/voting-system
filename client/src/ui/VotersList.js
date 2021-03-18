@@ -1,4 +1,10 @@
-import React, { useContext, useState, useEffect, useMemo } from "react";
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { Web3Context } from "../context";
 import useContract from "../context/useContract";
 import Table from "./components/Table";
@@ -26,27 +32,36 @@ const VotersList = ({ width = "6" }) => {
     setVoterAddress(null);
   };
 
-  useEffect(() => {
+  const whiteListCallback = useCallback(() => {
     whiteList(instance).then(setVoters);
-  }, [instance]);
+  }, [whiteList, instance]);
+
   useEffect(() => {
-    whiteList(instance).then(setVoters);
-  }, [eventTxHash, voters]);
+    whiteListCallback();
+  }, [instance, whiteListCallback, eventTxHash, voters]);
 
   const isVoterRegistrationOpen = useMemo(
     () => !Boolean(!!voterAddress && parseInt(status) === 0),
-    [voterAddress]
+    [voterAddress, status]
   );
-  const isPending = useMemo(
-    () => {
-      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "VoterRegistered") { return true}  
-      if (transactionStatus.status === TRANSACTION_STATUS.PENDING && transactionStatus.event === "VoterRemoved") { return true}  
-      return false;
-    },
-    [eventTxHash, transactionStatus]
-  );
+  const isPending = useMemo(() => {
+    if (
+      transactionStatus.status === TRANSACTION_STATUS.PENDING &&
+      transactionStatus.event === "VoterRegistered"
+    ) {
+      return true;
+    }
+    if (
+      transactionStatus.status === TRANSACTION_STATUS.PENDING &&
+      transactionStatus.event === "VoterRemoved"
+    ) {
+      return true;
+    }
+    return false;
+  }, [transactionStatus, TRANSACTION_STATUS.PENDING]);
   const hasErrors = useMemo(() => !!voterAddress && parseInt(status) !== 0, [
     voterAddress,
+    status,
   ]);
   return (
     <div className={`col-md-${width}`}>

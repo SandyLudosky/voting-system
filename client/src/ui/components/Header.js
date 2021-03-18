@@ -4,17 +4,14 @@ import useContract from "../../context/useContract";
 
 const Header = ({ instance, admin, endVoting }) => {
   const {
-    transactionStatus, 
+    transactionStatus,
     TRANSACTION_STATUS,
-        eventTxHash,
     count,
     status,
-    event,
     startProposalSession,
     endProposalSession,
     startVotingSession,
     endVotingSession,
-    resetVotingSession,
   } = useContract(instance, admin);
   const workflowStatus = [
     "RegisteringVoters",
@@ -25,15 +22,17 @@ const Header = ({ instance, admin, endVoting }) => {
     "VotesTallied",
   ];
 
-
-const isPending = useMemo(() => transactionStatus.status === TRANSACTION_STATUS.PENDING,[eventTxHash, transactionStatus]);
-const isProposalsRegistrationOpen = useMemo(
+  const isPending = useMemo(
+    () => transactionStatus.status === TRANSACTION_STATUS.PENDING,
+    [transactionStatus, TRANSACTION_STATUS]
+  );
+  const isProposalsRegistrationOpen = useMemo(
     () => !Boolean(!isPending && count > 0 && parseInt(status) === 0),
-    [count, status, event]
+    [isPending, count, status]
   );
 
-  const isDisabled = (index) => !Boolean(!isPending && parseInt(status) === index);
-
+  const isDisabled = (index) =>
+    !Boolean(!isPending && parseInt(status) === index);
 
   return (
     !!instance && (
@@ -72,7 +71,7 @@ const isProposalsRegistrationOpen = useMemo(
               End Voting Session
             </button>
             &nbsp;
-           {/*  <button
+            {/*  <button
               onClick={resetVotingSession}
               disabled={!Boolean(parseInt(status) !== 0)}
               className="btn btn-danger btn-sm"

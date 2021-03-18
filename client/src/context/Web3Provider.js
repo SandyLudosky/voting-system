@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import VotingContract from "../contracts/Voting.json";
 import getWeb3 from "./getWeb3";
 import { Web3Context } from ".";
@@ -30,18 +30,24 @@ const Web3Provider = ({ children }) => {
         deployedNetwork && deployedNetwork.address
       );
       instance && console.log("connected to blockchain");
-      const status = await instance.methods.status().call() == 4;
-      console.log('session ended :', status);
+      const status = (await instance.methods.status().call()) == 4;
+      console.log("session ended :", status);
       resolve({ web3, instance, accounts, status });
     });
 
-  const connect = () => {
+  const connect = useCallback(() => {
     connectWeb3
       .then(connectBlockchain, console.error)
       .then(({ web3, instance, accounts, status }) => {
-        setState({ web3, accounts, contract: instance, admin: accounts[0], endVoting: status });
+        setState({
+          web3,
+          accounts,
+          contract: instance,
+          admin: accounts[0],
+          endVoting: status,
+        });
       });
-  };
+  }, [connectWeb3]);
 
   const value = useMemo(() => {
     return {
@@ -49,7 +55,7 @@ const Web3Provider = ({ children }) => {
       instance: state.contract,
       ...state,
     };
-  }, [state]);
+  }, [state, connect]);
   return <Provider value={value}>{children}</Provider>;
 };
 export default Web3Provider;

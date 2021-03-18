@@ -1,4 +1,10 @@
-import React, { useContext, useState, useEffect, useMemo } from "react";
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { Web3Context } from "../context";
 import useContract from "../context/useContract";
 import Table from "./components/Table";
@@ -26,15 +32,17 @@ const ProposalList = ({ width = "6" }) => {
     addProposal(proposal);
     setProposal(null);
   };
-  useEffect(() => {
+  const getProposalsCallback = useCallback(() => {
     getProposals(instance).then(setProposalList);
-  }, [instance]);
+  }, [getProposals, instance]);
+
   useEffect(() => {
-    getProposals(instance).then(setProposalList);
-  }, [eventTxHash]);
+    getProposalsCallback();
+  }, [instance, getProposalsCallback, eventTxHash]);
+
   const isProposalsRegistrationOpen = useMemo(
     () => !Boolean(!!proposal && parseInt(status) === 1),
-    [proposal]
+    [proposal, status]
   );
   const isPending = useMemo(() => {
     if (
@@ -50,9 +58,11 @@ const ProposalList = ({ width = "6" }) => {
       return true;
     }
     return false;
-  }, [eventTxHash, transactionStatus]);
+  }, [transactionStatus, TRANSACTION_STATUS.PENDING]);
+
   const hasErrors = useMemo(() => !!proposal && parseInt(status) !== 1, [
     proposal,
+    status,
   ]);
   return (
     <div className={`col-md-${width}`}>

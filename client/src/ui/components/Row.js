@@ -38,7 +38,10 @@ const Row = ({
 }) => {
   const { instance, admin } = useContext(Web3Context);
   const { status, vote } = useContract(instance, admin);
-  const hasVotes = useMemo(() => isProposal && voteCount > 0, [voteCount]);
+  const hasVotes = useMemo(() => isProposal && voteCount > 0, [
+    isProposal,
+    voteCount,
+  ]);
   return (
     <tr>
       <th scope="row">{index + 1}</th>

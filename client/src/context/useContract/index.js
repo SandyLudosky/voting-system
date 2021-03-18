@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Web3 from "web3";
 import WriteContract from "./writeContract";
 import ReadContract from "./readContract";
@@ -10,8 +10,6 @@ const useContract = (instance, admin) => {
     COMPLETED: "completed",
   };
   const {
-    state,
-    currentVoter,
     addVoter,
     removeVoter,
     startProposalSession,
@@ -24,35 +22,36 @@ const useContract = (instance, admin) => {
     vote,
   } = WriteContract(instance, admin);
 
-  const { count, whiteList, getProposals, countVoters, getWinningProposal } = ReadContract(
-    instance
-  );
+  const {
+    count,
+    whiteList,
+    getProposals,
+    countVoters,
+    getWinningProposal,
+  } = ReadContract(instance);
   const [transactionStatus, setTransactionStatus] = useState({
     status: TRANSACTION_STATUS.NIL,
     event: null,
   });
 
-  const [event, setEvent] = useState(null);
   const [toast, setToast] = useState({ visible: false, message: "" });
   const [status, setStatus] = useState(0);
   const [eventTxHash, setTxHash] = useState("");
 
-  const getStatus = async () => {
+  const getStatus = useCallback(async () => {
     if (!instance) {
       return false;
     }
     instance.methods
       .status()
       .call()
-      .then(([index]) => setStatus(index))
-
-  };
+      .then(([index]) => setStatus(index));
+  }, [instance]);
 
   const updateStatus = (data) => setStatus(data.returnValues.newStatus);
-  
+
   const registerEvent = (data) => {
     setTxHash(data.transactionHash);
-    setEvent(data.event);
   };
 
   const displayToast = (message) => {
@@ -60,15 +59,16 @@ const useContract = (instance, admin) => {
     setTimeout(() => setToast({ visible: false, message: "" }), 2000);
   };
 
-  const handleTransaction = async (data, message) => {
-    return new Promise((resolve) => {
-      setTransactionStatus({
-        status: TRANSACTION_STATUS.PENDING,
-        event: data.event,
-      });
-      const web3 = new Web3(window.ethereum);
-      web3.eth.getTransactionReceipt(data.transactionHash).then((result) => {
-        setTimeout(() => {
+  const handleTransaction = useCallback(
+    async (data, message) => {
+      return new Promise((resolve) => {
+        setTransactionStatus({
+          status: TRANSACTION_STATUS.PENDING,
+          event: data.event,
+        });
+        const web3 = new Web3(window.ethereum);
+        web3.eth.getTransactionReceipt(data.transactionHash).then((result) => {
+          console.dir(result);
           setTransactionStatus({
             status: result.status
               ? TRANSACTION_STATUS.COMPLETED
@@ -79,60 +79,63 @@ const useContract = (instance, admin) => {
           if (data.event !== "WorkflowStatusChange") {
             displayToast(message);
           }
-        }, 5000);
-        resolve(data);
+          resolve(data);
+        });
       });
-    });
-  };
+    },
+    [
+      countVoters,
+      TRANSACTION_STATUS.PENDING,
+      TRANSACTION_STATUS.COMPLETED,
+      TRANSACTION_STATUS.NIL,
+    ]
+  );
 
-  const subscribeEvents = () => {
+  const subscribeEvents = useCallback(() => {
     if (!instance) {
       return false;
     }
-    instance.events.allEvents( {
-      },(error,event)=> {
-        if(error) {
-          throw error
-        }
-        handleTransaction(event, `✅ ${event.event} !`)
-        if(event.event == "WorkflowStatusChange"){
-          updateStatus(event);
-        } else if(event.event == "VotingSessionEnded"){
-          document.location.reload()
-        } else {
-          registerEvent(event);
-        }
-      })
-  };
+    instance.events.allEvents({}, (error, event) => {
+      if (error) {
+        throw error;
+      }
+      handleTransaction(event, `✅ ${event.event} !`);
+      if (event.event === "WorkflowStatusChange") {
+        updateStatus(event);
+      } else if (event.event === "VotingSessionEnded") {
+        document.location.reload();
+      } else {
+        registerEvent(event);
+      }
+    });
+  }, [instance, handleTransaction]);
 
   useEffect(() => {
     subscribeEvents();
     getStatus();
     countVoters();
-  }, [instance]);
+  }, [getStatus, countVoters, subscribeEvents]);
 
-  return useMemo(() => {
-    return {
-      TRANSACTION_STATUS,
-      transactionStatus,
-      status,
-      count,
-      eventTxHash,
-      toast,
-      whiteList,
-      getProposals,
-      getWinningProposal,
-      addVoter,
-      removeVoter,
-      startProposalSession,
-      endProposalSession,
-      startVotingSession,
-      endVotingSession,
-      resetVotingSession,
-      addProposal,
-      removeProposal,
-      vote,
-    };
-  }, [status, event, transactionStatus, count, eventTxHash, state, toast]);
+  return {
+    TRANSACTION_STATUS,
+    transactionStatus,
+    status,
+    count,
+    eventTxHash,
+    toast,
+    whiteList,
+    getProposals,
+    getWinningProposal,
+    addVoter,
+    removeVoter,
+    startProposalSession,
+    endProposalSession,
+    startVotingSession,
+    endVotingSession,
+    resetVotingSession,
+    addProposal,
+    removeProposal,
+    vote,
+  };
 };
 export default useContract;
