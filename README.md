@@ -1,5 +1,4 @@
-# voting-system
-
+# Voting System Dapp
 ## Features :
 
 - l’enregistrement d’une liste blanche d'électeurs. 
