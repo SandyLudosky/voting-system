@@ -13,4 +13,4 @@
 
 ## Demo :
 
-![app demo gif](./app-demo.gif?raw=true)
+![app demo video](https://youtu.be/X_RiMF9m958)
