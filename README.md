@@ -13,4 +13,4 @@
 
 ## Demo :
 
-![alt text](https://github.com/SandyLudosky/voting-system/app-demo.gif "Voting System Dapp")
+![app demo gif](./app-demo.gif?raw=true)
