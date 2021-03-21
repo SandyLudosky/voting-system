@@ -26,7 +26,10 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-
+      
+    - name: Install client dependencies
+      run: npm run install-client
+      
     - name: Build
       run: npm run build
       
