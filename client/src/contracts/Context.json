@@ -1,18 +1,18 @@
 {
   "contractName": "Context",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/C/work_store/blockchain_work/voting_sys_final/voting-system/contracts/Context.sol\":\"Context\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/work_store/blockchain_work/voting_sys_final/voting-system/contracts/Context.sol\":{\"keccak256\":\"0x5380b453b194000345aa55350fe53e8320283fa4748d66f3856808b6e6cc4d0e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c2b28c365c099c51e629341c066c41ec715be74a959ba7230849b165ae6c1648\",\"dweb:/ipfs/QmTZ2ioE6SRNA3pqy2oHGtro7cZ6GiPDJxXsTpWSai3sdC\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220787c4d400da253c37d23a8df5f5bbc16a306f9fc029508ad5e14b41059c5e39264736f6c63430007060033",
-  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220787c4d400da253c37d23a8df5f5bbc16a306f9fc029508ad5e14b41059c5e39264736f6c63430007060033",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/sandyinstructor/Documents/\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83d\\udcbbBLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Context.sol\":\"Context\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/sandyinstructor/Documents/\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83d\\udcbbBLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Context.sol\":{\"keccak256\":\"0x5380b453b194000345aa55350fe53e8320283fa4748d66f3856808b6e6cc4d0e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c2b28c365c099c51e629341c066c41ec715be74a959ba7230849b165ae6c1648\",\"dweb:/ipfs/QmTZ2ioE6SRNA3pqy2oHGtro7cZ6GiPDJxXsTpWSai3sdC\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea264697066735822122061a058ba5f8e5280ac0718e1db737ec3050df958f4b86316f205c0bee124de3364736f6c63430007060033",
+  "deployedBytecode": "0x6080604052600080fdfea264697066735822122061a058ba5f8e5280ac0718e1db737ec3050df958f4b86316f205c0bee124de3364736f6c63430007060033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
   "sourceMap": "578:366:0:-:0;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "578:366:0:-:0;;;;;",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.7.4 <0.8.0;\r\n\r\n/*\r\n * @dev Provides information about the current execution context, including the\r\n * sender of the transaction and its data. While these are generally available\r\n * via msg.sender and msg.data, they should not be accessed in such a direct\r\n * manner, since when dealing with GSN meta-transactions the account sending and\r\n * paying for execution may not be the actual sender (as far as an application\r\n * is concerned).\r\n *\r\n * This contract is only required for intermediate, library-like contracts.\r\n */\r\ncontract Context {\r\n    function _msgSender() internal view virtual returns (address) {\r\n        return msg.sender;\r\n    }\r\n\r\n    function _msgData() internal view virtual returns (bytes memory) {\r\n        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691\r\n        return msg.data;\r\n    }\r\n}",
-  "sourcePath": "C:/work_store/blockchain_work/voting_sys_final/voting-system/contracts/Context.sol",
+  "sourcePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Context.sol",
   "ast": {
-    "absolutePath": "/C/work_store/blockchain_work/voting_sys_final/voting-system/contracts/Context.sol",
+    "absolutePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Context.sol",
     "exportedSymbols": {
       "Context": [
         22
@@ -258,7 +258,7 @@
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/C/work_store/blockchain_work/voting_sys_final/voting-system/contracts/Context.sol",
+      "absolutePath": "/Users/sandyinstructor/Documents/👩🏽‍💻BLOCKCHAIN/Alyra/Defi/truffle-voting-syst/contracts/Context.sol",
       "exportedSymbols": {
         "Context": [
           22
@@ -556,7 +556,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.4",
-  "updatedAt": "2021-03-15T22:28:50.407Z",
+  "updatedAt": "2021-03-21T00:38:29.172Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
