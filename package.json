@@ -4,7 +4,7 @@
     "predeploy": "cd client && npm run build",
     "deploy": "cd client && npm run deploy",
     "build": "cd client && npm run build",
-    "install": "npm install && cd client && npm install",
+    "install-clint": "cd client && npm install",
     "test": "truffle test"
   },
   "dependencies": {
