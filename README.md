@@ -13,4 +13,5 @@
 
 ## Demo :
 
-![app demo video](https://youtu.be/X_RiMF9m958)
+
+[![Dapp Voting System](./app-demo.gif)](https://youtu.be/X_RiMF9m958 "Dapp Voting System")
