@@ -26,15 +26,9 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      
-    - name: Install client dependencies
-      run: npm run install-client
-      
-    - name: Build
-      run: npm run build
-      
+    
     - name: Run the tests and generate coverage report
-      run: npm test -- --coverage
+      run: truffle test -- --coverage
       
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
