@@ -31,7 +31,7 @@ jobs:
       run: npm install --save-dev truffle
     
     - name: Run the tests and generate coverage report
-      run: npx truffle run coverage
+      run: npx truffle test 
       
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
