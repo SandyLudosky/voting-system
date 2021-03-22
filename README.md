@@ -15,3 +15,5 @@
 
 
 [![Dapp Voting System](./app-demo.gif)](https://youtu.be/K31BsgT8U9w "Dapp Voting System")
+
+![CI/CD](https://github.com/SandyLudosky/react-workflow-gh-actions/workflows/CI/CD/badge.svg)
