@@ -28,10 +28,10 @@ jobs:
       run: npm install
     
     - name: Install truffle
-      run: npm install truffle
+      run: npm install --save-dev truffle
     
     - name: Run the tests and generate coverage report
-      run: truffle test -- --coverage
+      run: npx truffle run coverage
       
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
